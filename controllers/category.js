@@ -1,6 +1,6 @@
 const Category = require("../models/category");
 
-exports.getCategoryById=(req,res,id,next)=>{
+exports.getCategoryById=(req,res,next,id)=>{
 Category.findById(id).exec((err,cate)=>{
     if(err){
         return res.json({
@@ -40,10 +40,9 @@ exports.getAllCategories=(req,res)=>{
 }
 
 exports.updateCategory=(req,res)=>{
-    // const category=req.category;
-    // category.name=req.body.name;
-    req.category.name=req.body.name; //Right statement is what admin want to update from frontend.
-    Category.save((err,updatedCategory)=>{
+    const category=req.category;
+    category.name=req.body.name; //Right statement is what admin want to update from frontend.
+    category.save((err,updatedCategory)=>{
         if(err){
             return res.json({
                 error:'Failed to update category'
@@ -54,8 +53,8 @@ exports.updateCategory=(req,res)=>{
 }
 
 exports.deleteCategory=(req,res)=>{
-    // const category=req.category;
-   Category.remove((err,category)=>{
+    const category=req.category;
+    category.remove((err,category)=>{
     if(err){
         return res.json({
             error:'Failed to delete category'
