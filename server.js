@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRoutes=require('./routes/auth');
 const userRoutes=require('./routes/user');
-const User = require("./models/user");
+const categoryRoutes=require('./routes/category');
 
 //Middlewares
 app.use(bodyParser.json());
@@ -26,13 +26,15 @@ mongoose.connect(process.env.DATABASE, {
 });
 
 
-//Routes
+
 app.get('/',(req,res)=>{
   res.send('Hello')
 });
 
+//Routes
 app.use('/api',authRoutes);
 app.use('/api',userRoutes);
+app.use('/api',categoryRoutes);
 
 //Port
 app.listen(process.env.PORT || 3000, () => {
