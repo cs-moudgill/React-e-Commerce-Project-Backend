@@ -55,3 +55,19 @@ exports.createProduct = (req, res) => {
     });
   });
 };
+
+exports.getProduct=(req,res)=>{
+  req.product.photo.data=undefined; //to nullify large file so that result can be returned without any delay.
+  return res.send(req.product);  //returned from getProductById.
+}
+
+//Middleware for photo (in this case)
+exports.mediaHandling=(req,res,next)=>{
+  if(req.product.photo.data){
+    res.set('Content-Type',req.product.photo.contentType);
+    return res.send(req.product.photo.data);
+  }
+  next();
+}
+
+
