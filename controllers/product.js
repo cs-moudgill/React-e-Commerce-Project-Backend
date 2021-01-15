@@ -146,19 +146,32 @@ exports.getAllProducts=(req,res)=>{
   })
 }
 
-//when something is sold then stock number will go down accordingly.
+//to provide the unique category name.
+exports.getAllUniqueCategories=(req,res)=>{
+  Product.distinct('category',{},(err,category)=>{
+    if(err){
+      return res.json({
+        error:'No category found'
+      })
+    }
+    res.json(category);
+  })
+}
+
+//when something is sold then stock value should go down accordingly.
 //below we are using bulkWrite method from Mongoose.
 exports.updateStockSold=(req,res,next)=>{
   let operation=req.body.order.products.map((prod)=>{
     return {
       updateOne:{
-        filter:{_id:prod._id},
-        update:{$inc:{stock:-prod.count,sold:+prod.count}}
+        filter:{_id:prod._id}, //which item to update.
+        update:{$inc:{stock:-prod.count,sold:+prod.count}} //what to update in that item.
       }
     }
   });
   //it requires 3 thing-- operation to be performed..
-  //.. options includes any conditions.
+  //..options includes any conditions we want to set..
+  //..callback function.
   Product.bulkWrite(operation,{},(err,products)=>{
     if(err){
       return res.json({
