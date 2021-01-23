@@ -45,7 +45,7 @@ exports.signin = (req, res) => {
     //create token
     var token = jwt.sign({ _id: user._id }, process.env.SECRETKEY);
     // put the token in browser cookie.
-    res.cookie('token', token, { expire: new Date() + 9999 });
+    res.cookie("token", token, { expire: new Date() + 9999 });
     //send response to frontend.
     const { _id, name, email, role } = user; //es6--> user.name,user.role etc.
     return res.json({
@@ -56,32 +56,33 @@ exports.signin = (req, res) => {
 };
 
 exports.signout = (req, res) => {
-  res.clearCookie('token'); //to clear the cookies generated(to keep the user logged in) during signin.
+  res.clearCookie("token"); //to clear the cookies generated(to keep the user logged in) during signin.
   res.send("You are on Signout Page.");
 };
 
-exports.isLoggedIn = expressJwt({   //expressJWT keeps the user logged in.
+exports.isLoggedIn = expressJwt({
+  //expressJWT keeps the user logged in.
   secret: process.env.SECRETKEY,
-  userProperty:"auth",
-  algorithms:['HS256']
-    //we can name it anything through expressJwt.
+  userProperty: "auth",
+  algorithms: ["HS256"],
+  //we can name it anything through expressJwt.
 });
 
-exports.isAuthenticated=(req,res,next)=>{
-  let checker=req.profile._id==req.auth._id;
-if(!checker){
- return res.status(403).json({
-    error:'ACCESS DENIED'
-  });
-}
-next();
+exports.isAuthenticated = (req, res, next) => {
+  let checker = req.profile._id == req.auth._id;
+  if (!checker) {
+    return res.status(403).json({
+      error: "ACCESS DENIED",
+    });
+  }
+  next();
 };
 
-exports.isAdmin=(req,res,next)=>{
-if(req.profile.role===0){
- return res.status(403).json({
-    error:'You are not ADMIN, ACCESS DENIED'
-  })
-}
-next();
+exports.isAdmin = (req, res, next) => {
+  if (req.profile.role === 0) {
+    return res.status(403).json({
+      error: "You are not ADMIN, ACCESS DENIED",
+    });
+  }
+  next();
 };
