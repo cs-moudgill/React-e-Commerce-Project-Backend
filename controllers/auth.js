@@ -42,7 +42,7 @@ exports.signin = (req, res) => {
       });
     }
 
-    //create token
+    //if authentication is successful then create token.
     var token = jwt.sign({ _id: user._id }, process.env.SECRETKEY);
     // put the token in browser cookie.
     res.cookie("token", token, { expire: new Date() + 9999 });
@@ -57,7 +57,7 @@ exports.signin = (req, res) => {
 
 exports.signout = (req, res) => {
   res.clearCookie("token"); //to clear the cookies generated(to keep the user logged in) during signin.
-  res.send("You are on Signout Page.");
+  res.send("signout success.");
 };
 
 exports.isLoggedIn = expressJwt({

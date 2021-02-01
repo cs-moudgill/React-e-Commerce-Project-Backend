@@ -33,7 +33,7 @@ exports.createProduct = (req, res) => {
         error: "All fields must be completed",
       });
     }
-    var product = new Product(fields); //info related to image will be stores according to the product Schema.
+    var product = new Product(fields); //info related to image will be store according to the product Schema.
     //file handling photo/object
     if (file.photo) {
       if (file.photo.size > 3000000) {
