@@ -4,7 +4,7 @@ var _ = require("lodash");
 var fs = require("fs");
 const { sortBy } = require("lodash");
 
-exports.getProductById = (req, res, next, id) => {
+exports.getProductById = (req, res, next, id) => { //id here means productId.
   Product.findById(id).exec((err, product) => {
     if (err) {
       return res.json({
@@ -36,7 +36,7 @@ exports.createProduct = (req, res) => {
     var product = new Product(fields); //info related to image will be store according to the product Schema.
     //file handling photo/object
     if (file.photo) {
-      if (file.photo.size > 3000000) {
+      if (file.photo.size > 3000000) {  //3MB
         return res.json({
           error: "File is too big to upload",
         });
@@ -65,7 +65,7 @@ exports.getProduct=(req,res)=>{
 //Middleware for photo (in this case)
 exports.mediaHandling=(req,res,next)=>{
   if(req.product.photo.data){
-    res.set('Content-Type',req.product.photo.contentType);
+    res.set('Content-Type',req.product.photo.contentType); //image/png
     return res.send(req.product.photo.data);
   }
   next();
