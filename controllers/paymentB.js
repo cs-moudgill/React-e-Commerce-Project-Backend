@@ -9,22 +9,29 @@ const gateway = new braintree.BraintreeGateway({
 
 exports.getToken = (req, res) => {
   gateway.clientToken.generate({}, (err, response) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(response);
+    if(err){
+      res.status(500).send(err)
+    }else{
+      res.send(response)
     }
   });
+
+  // gateway.clientToken.generate({
+  //   customerId: aCustomerId
+  // }).then(response => {
+  //   // pass clientToken to your front-end
+  //   const clientToken = response.clientToken
+  // });
+
 };
 
 exports.processPayment = (req, res) => {
-  var nonceFromTheClient = req.body.paymentMethodNonce;
-  var amountFromClient = req.body.amount;
+  let nonceFromTheClient = req.body.paymentMethodNonce
+  let amountFromClient = req.body.amount
   gateway.transaction.sale(
     {
       amount: amountFromClient,
       paymentMethodNonce: nonceFromTheClient,
-      deviceData: deviceDataFromTheClient,
       options: {
         submitForSettlement: true,
       },
