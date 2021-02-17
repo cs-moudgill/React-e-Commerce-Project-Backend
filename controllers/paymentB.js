@@ -15,14 +15,6 @@ exports.getToken = (req, res) => {
       res.send(response)
     }
   });
-
-  // gateway.clientToken.generate({
-  //   customerId: aCustomerId
-  // }).then(response => {
-  //   // pass clientToken to your front-end
-  //   const clientToken = response.clientToken
-  // });
-
 };
 
 exports.processPayment = (req, res) => {
