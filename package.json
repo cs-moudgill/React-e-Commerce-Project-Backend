@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engine":{
+    "node":"12.16.2",
+    "npm":"6.14.4"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "braintree": "^3.2.1",
@@ -23,7 +27,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "projfront": "cd projfront && npm start",
+    "server": "nodemon server.js"
   },
   "author": "channpreet",
   "license": "ISC"

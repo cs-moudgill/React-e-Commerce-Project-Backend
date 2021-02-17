@@ -11,11 +11,13 @@ const categoryRoutes=require('./routes/category');
 const productRoutes=require('./routes/product');
 const orderRoutes=require('./routes/order');
 const paymentBRoutes=require('./routes/paymentBRoutes');
+const path = require('path')
 
 //Middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
+app.use(express.static('public'));
 
 //DB
 mongoose.connect(process.env.DATABASE, {
@@ -41,6 +43,22 @@ app.use('/api',categoryRoutes);
 app.use('/api',productRoutes);
 app.use('/api',orderRoutes);
 app.use('/api',paymentBRoutes);
+
+// This middleware informs the express application to serve compiled React files.
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+  app.use(express.static(path.join(__dirname, 'projfront/build')));
+
+  app.get('*', function (req, res) {
+      res.sendFile(path.join(__dirname, 'projfront/build', 'index.html'));
+  });
+};
+
+// Catch any bad requests
+app.get('*', (req, res) => {
+  res.status(200).json({
+      msg: 'Catch All'
+  });
+});
 
 //Port
 app.listen(process.env.PORT || 8000, () => {
