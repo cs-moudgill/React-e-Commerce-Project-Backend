@@ -25,5 +25,8 @@
     "start": "node server.js"
   },
   "author": "channpreet",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "12.16.2"
+  }
 }
